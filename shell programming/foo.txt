@@ -1,0 +1,92 @@
+Hello, this is Anubhav, i am implementing cat command . Anubhav likes to play cricket
+
+sudo apt-get update
+ sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+{
+	"exec-opts" : "native.cgroupdriver=systemd",
+	"insecure-registries" : "<enter master node IP>:5000"
+}
+
+Kubernetes:
+
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl
+sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubelet=1.22.6-00 kubeadm=1.22.6-00  kubectl=1.22.6-00
+
+sudo swapoff -a
+sudo hostnamectl set-hostname faasapp-master
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+
+kubeadm join 10.129.28.219:6443 --token nmefpq.jg5iqm6956xgbb9l \​
+--discovery-token-ca-cert-hash sha256:320eea2f1e07d52270fcf3c8b6409021928aa1971611e0cd29abc569f7c2b0fa 
+
+kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml​​
+
+curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null​
+​
+
+sudo apt-get install apt-transport-https --yes​
+​
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list​
+​
+
+sudo apt-get update​
+​
+
+sudo apt-get install helm​
+
+
+
+
+
+helm repo add openwhisk https://openwhisk.apache.org/charts​
+​
+helm repo update​
+​
+helm install owdev openwhisk/openwhisk -n openwhisk --create-namespace -f mycluster.yaml​
+
+
+kubectl label nodes faasapp-master openwhisk-role=core​
+kubectl label nodes faasapp-worker01 openwhisk-role=invoker
+
+wget https://github.com/apache/openwhisk-cli/releases/download/1.2.0/OpenWhisk_CLI-1.2.0-linux-amd64.tgz​
+
+tar zxvf OpenWhisk_CLI-1.2.0-linux-amd64.tgzz​
+
+Open ~/.bashrc and add export PATH=$PATH:/home/faasapp/Desktop/anubhav/openwhisk (Path to wsk is added to path variable) and source ~/.bashrc​
+
+wsk property set --apihost 10.129.28.219:31001​
+
+wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP​
+
+​
+
+Write a sample python script​
+
+Execute the following commands:​
+
+wsk -i action create hello hello.py  ​
+
+wsk -I action invoke hello ​
+
+wsk -i action invoke hello1 --result --param name Anubhav​
