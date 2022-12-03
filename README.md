@@ -1,5 +1,5 @@
 # cs744-IITB-assignment
-This repo includes all the assignments that I solved in the course "Design and Engineering of Computng Systems" (CS 744) in Autumn 2022-23 taught by Prof. Mythili Vukuturu
+This repo includes all the assignments that I solved in the course "Design and Engineering of Computng Systems" (CS 744) in Autumn 2022-23 taught by Prof. Mythili Vutukuru
 
 
 
